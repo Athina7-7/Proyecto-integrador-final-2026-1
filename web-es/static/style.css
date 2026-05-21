@@ -1,0 +1,145 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f1f4f1;
+  color: #18221c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(40, 120, 83, 0.13), transparent 38%),
+    linear-gradient(315deg, rgba(193, 96, 54, 0.14), transparent 44%),
+    #f1f4f1;
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+}
+
+.panel {
+  width: min(760px, 100%);
+  background: #ffffff;
+  border: 1px solid #d8e2d8;
+  border-radius: 8px;
+  box-shadow: 0 18px 60px rgba(24, 34, 28, 0.14);
+  padding: clamp(22px, 5vw, 42px);
+}
+
+.server-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #eaf7ef;
+  color: #1f6842;
+  border: 1px solid #bfdfca;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 18px 0 8px;
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  line-height: 1.03;
+  letter-spacing: 0;
+}
+
+.lead {
+  margin: 0 0 24px;
+  color: #59675f;
+  font-size: 1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  font-weight: 700;
+  color: #2b3a30;
+}
+
+label span {
+  min-height: 22px;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #bdcabc;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font: inherit;
+  background: #ffffff;
+  color: #18221c;
+}
+
+input:focus,
+select:focus {
+  outline: 3px solid rgba(31, 104, 66, 0.22);
+  border-color: #1f6842;
+}
+
+button {
+  grid-column: 1 / -1;
+  min-height: 48px;
+  border: 0;
+  border-radius: 6px;
+  background: #1f6842;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #185233;
+}
+
+.alert {
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border: 1px solid;
+}
+
+.alert p {
+  margin: 0;
+}
+
+.alert p + p {
+  margin-top: 6px;
+}
+
+.error {
+  background: #fff1f0;
+  border-color: #f2b5b0;
+  color: #7f1d1d;
+}
+
+.success {
+  background: #edf8ef;
+  border-color: #acdcb7;
+  color: #185b2a;
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

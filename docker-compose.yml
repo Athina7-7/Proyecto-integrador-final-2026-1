@@ -1,0 +1,105 @@
+services:
+  nginx-lb:
+    image: nginx:stable-alpine
+    container_name: nginx-lb
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      web-en:
+        condition: service_started
+      web-es:
+        condition: service_started
+      stats:
+        condition: service_started
+    networks:
+      - public
+      - backend
+
+  web-en:
+    build: ./web-en
+    container_name: web-en
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DB_HOST: db
+      SERVED_BY: Served by Web Server 1 - English
+      APP_LANGUAGE: English
+    expose:
+      - "5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend
+
+  web-es:
+    build: ./web-es
+    container_name: web-es
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DB_HOST: db
+      SERVED_BY: Atendido por Web Server 2 - Espanol
+      APP_LANGUAGE: Espanol
+    expose:
+      - "5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend
+
+  stats:
+    build: ./stats
+    container_name: stats
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DB_HOST: db
+      MPLBACKEND: Agg
+    expose:
+      - "5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend
+
+  db:
+    image: postgres:16-alpine
+    container_name: db
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DB_NAME:-telematica}
+      POSTGRES_USER: ${DB_USER:-telematica_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-change_me_in_production}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend
+
+networks:
+  public:
+    driver: bridge
+  backend:
+    driver: bridge
+    internal: false
+
+volumes:
+  db_data:

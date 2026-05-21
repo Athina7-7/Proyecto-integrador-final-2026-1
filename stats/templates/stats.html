@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Estadisticas - Proyecto Telematica</title>
+  <style>
+    :root {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #16222a;
+      background: #eef2f5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #eef2f5;
+    }
+
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 28px 16px 48px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+      color: #526270;
+    }
+
+    .metric {
+      min-width: 170px;
+      border-radius: 8px;
+      border: 1px solid #cfdae3;
+      background: #ffffff;
+      padding: 16px;
+      text-align: right;
+    }
+
+    .metric strong {
+      display: block;
+      color: #1f6f8b;
+      font-size: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    section {
+      border-radius: 8px;
+      border: 1px solid #cfdae3;
+      background: #ffffff;
+      padding: 18px;
+    }
+
+    section.full {
+      grid-column: 1 / -1;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.1rem;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid #dbe3ea;
+      border-radius: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #e3e9ee;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #405362;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    button {
+      min-height: 42px;
+      border: 0;
+      border-radius: 6px;
+      background: #1f6f8b;
+      color: #ffffff;
+      padding: 0 16px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #18566c;
+    }
+
+    .notice {
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      border: 1px solid;
+      background: #edf8ef;
+      border-color: #acdcb7;
+      color: #185b2a;
+    }
+
+    .error {
+      background: #fff1f0;
+      border-color: #f2b5b0;
+      color: #7f1d1d;
+    }
+
+    .muted {
+      color: #6b7782;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 800px) {
+      header,
+      .actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .metric {
+        text-align: left;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Estadisticas acumuladas</h1>
+        <p>Registros almacenados por comuna, carrera y servidor.</p>
+      </div>
+      <div class="metric">
+        <span>Total usuarios</span>
+        <strong>{{ stats.total }}</strong>
+      </div>
+    </header>
+
+    {% if message %}
+    <div class="notice" role="status">{{ message }}</div>
+    {% endif %}
+
+    {% if error %}
+    <div class="notice error" role="alert">{{ error }}</div>
+    {% endif %}
+
+    <div class="grid">
+      <section>
+        <h2>Total por comuna</h2>
+        <img src="{{ commune_chart }}" alt="Grafica de usuarios por comuna">
+      </section>
+
+      <section>
+        <h2>Total por carrera</h2>
+        <img src="{{ program_chart }}" alt="Grafica de usuarios por carrera">
+      </section>
+
+      <section>
+        <h2>Usuarios por comuna</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Comuna</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for commune, total in stats.by_commune %}
+            <tr>
+              <td>{{ commune }}</td>
+              <td>{{ total }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="2">Sin registros.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Usuarios por comuna y carrera</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Comuna</th>
+              <th>Carrera</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for commune, program, total in stats.by_commune_program %}
+            <tr>
+              <td>{{ commune }}</td>
+              <td>{{ program }}</td>
+              <td>{{ total }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3">Sin registros.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+
+      <section class="full">
+        <h2>Ultimos registros</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Comuna</th>
+              <th>Carrera</th>
+              <th>Idioma</th>
+              <th>Ingreso</th>
+              <th>Servidor</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for id, name, commune, program, language, entry_at, served_by in stats.recent %}
+            <tr>
+              <td>{{ id }}</td>
+              <td>{{ name }}</td>
+              <td>{{ commune }}</td>
+              <td>{{ program }}</td>
+              <td>{{ language }}</td>
+              <td>{{ entry_at }}</td>
+              <td>{{ served_by }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7">Sin registros.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <div class="actions">
+      <p class="muted">
+        {% if admin_token_enabled %}
+        Panel protegido por token de administrador.
+        {% else %}
+        Para produccion configure ADMIN_TOKEN en el archivo .env.
+        {% endif %}
+      </p>
+      <form method="post" action="/admin/send-email">
+        <input type="hidden" name="token" value="{{ token }}">
+        <button type="submit">Enviar estadisticas por correo</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
