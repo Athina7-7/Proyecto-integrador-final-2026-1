@@ -164,6 +164,8 @@ def build_email(stats, commune_png, program_png):
         f"- {commune} / {program}: {total}"
         for commune, program, total in stats["by_commune_program"]
     )
+    lines.append("")
+    lines.append("Trabajo realizado por: Laura Indabur García y Athina Cappelletti Garcia")
 
     msg.set_content("\n".join(lines))
     msg.add_attachment(
@@ -187,14 +189,15 @@ def send_email(stats, commune_png, program_png):
     user = os.getenv("SMTP_USER", "").strip()
     password = os.getenv("SMTP_PASSWORD", "").strip()
     smtp_from = os.getenv("SMTP_FROM", "").strip() or user
-    smtp_to = os.getenv("SMTP_TO", "ialondonoo@eafit.edu.co").strip()
+    smtp_to_str = os.getenv("SMTP_TO", "ialondonoo@eafit.edu.co").strip()
+    smtp_to_list = [email.strip() for email in smtp_to_str.split(",") if email.strip()]
 
     missing = []
     if not host:
         missing.append("SMTP_HOST")
     if not smtp_from:
         missing.append("SMTP_FROM or SMTP_USER")
-    if not smtp_to:
+    if not smtp_to_list:
         missing.append("SMTP_TO")
     if user and not password:
         missing.append("SMTP_PASSWORD")
@@ -213,9 +216,9 @@ def send_email(stats, commune_png, program_png):
             server.starttls()
         if user:
             server.login(user, password)
-        server.send_message(msg)
+        server.send_message(msg, to_addrs=smtp_to_list)
 
-    return True, f"Report sent to {smtp_to}."
+    return True, f"Report sent to {', '.join(smtp_to_list)}."
 
 
 @app.get("/")
