@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Estadisticas - Proyecto Telematica</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -207,8 +208,12 @@
         <img src="{{ program_chart }}" alt="Grafica de usuarios por carrera">
       </section>
 
+      <section class="full">
+        <h2>Distribución por comuna y carrera</h2>
+        <canvas id="communeProgramChart"></canvas>
+      </section>
+
       <section>
-        <h2>Usuarios por comuna</h2>
         <table>
           <thead>
             <tr>
@@ -291,7 +296,6 @@
         {% if admin_token_enabled %}
         Panel protegido por token de administrador.
         {% else %}
-        Para produccion configure ADMIN_TOKEN en el archivo .env.
         {% endif %}
       </p>
       <form method="post" action="/admin/send-email">
@@ -300,5 +304,63 @@
       </form>
     </div>
   </main>
+
+  <script>
+    // Procesar datos de comuna y carrera para gráfica
+    const communeProgramData = [
+      {% for commune, program, total in stats.by_commune_program %}
+      { commune: "{{ commune }}", program: "{{ program }}", total: {{ total }} },
+      {% endfor %}
+    ];
+
+    // Obtener communes y programas únicos
+    const communes = [...new Set(communeProgramData.map(d => d.commune))].sort();
+    const programs = [...new Set(communeProgramData.map(d => d.program))].sort();
+
+    // Crear datasets por programa
+    const colors = [
+      '#1f6f8b', '#3a9dbf', '#5cbce5', '#7dd4f0', '#9fe8ff',
+      '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4', '#10b981'
+    ];
+
+    const datasets = programs.map((program, idx) => ({
+      label: program,
+      data: communes.map(commune => {
+        const item = communeProgramData.find(d => d.commune === commune && d.program === program);
+        return item ? item.total : 0;
+      }),
+      backgroundColor: colors[idx % colors.length],
+      borderColor: colors[idx % colors.length],
+      borderWidth: 1
+    }));
+
+    // Configurar gráfico
+    const ctx = document.getElementById('communeProgramChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: communes,
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          }
+        },
+        scales: {
+          x: {
+            stacked: false,
+          },
+          y: {
+            stacked: false,
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
 </body>
 </html>
