@@ -67,16 +67,8 @@ La pagina debe alternar entre:
 
 ## Documentacion
 
-- [Arquitectura](docs/arquitectura.md)
-- [Direccionamiento](docs/direccionamiento.md)
-- [Configuracion AWS](docs/configuracion-aws.md)
-- [Configuracion Docker](docs/configuracion-docker.md)
-- [Configuracion NGINX](docs/configuracion-nginx.md)
-- [Configuracion DNS](docs/configuracion-dns.md)
-- [Certificado HTTPS](docs/certificado-https.md)
-- [Plan de pruebas](docs/pruebas.md)
-- [Informe final](docs/informe-final.md)
-- PDF base generado: `docs/informe-final.pdf` (renombrar con los apellidos reales antes de entregar).
+- [Informe final completo](docs/informe-final.md) — Contiene toda la documentacion del proyecto: arquitectura, direccionamiento, configuracion AWS, Docker, NGINX, DNS, HTTPS, aplicaciones web, estadisticas, pruebas y capturas.
+- PDF: exportar `docs/informe-final.md` a PDF y renombrar con los apellidos reales antes de entregar.
 
 ## Nota de despliegue AWS
 
