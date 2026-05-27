@@ -5,10 +5,9 @@
 **Proyecto:** Despliegue de servicio telemático seguro en AWS  
 **Materia:** Internet: Arquitectura y Protocolos / Telemática  
 **Institución:** Universidad EAFIT  
-**Integrantes:** Laura Indabur García y Athina Cappelletti Garcia  
-**Profesor:** [Nombre del profesor]  
+**Integrantes:** Laura Indabur García y Athina Cappelletti Garcia   
 **Fecha:** Mayo 2026  
-**Repositorio GitHub:** [URL del repositorio]  
+**Repositorio GitHub:** [https://github.com/Athina7-7/Proyecto-integrador-final-2026-1]  
 **URL pública:** `https://www.[dominio]`
 
 ---
