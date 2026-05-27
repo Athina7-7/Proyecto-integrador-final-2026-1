@@ -123,85 +123,44 @@ for i in $(seq 1 20); do curl -k -s https://www.[dominio] >/dev/null & done; wai
 
 > **Instrucciones:** Agregar aquí las capturas de pantalla del sistema funcionando. Guardar las imágenes en la carpeta `docs/capturas/` y referenciarlas a continuación.
 
-### 10.1 Configuración AWS
-
-<!-- Insertar captura de la consola AWS mostrando VPC, subredes, Security Groups e instancias EC2 -->
-
-**Captura: VPC y subredes**
-
-![VPC y subredes](capturas/01-vpc-subredes.png)
-
-**Captura: Security Groups**
-
-![Security Groups](capturas/02-security-groups.png)
-
-**Captura: Instancias EC2**
-
-![Instancias EC2](capturas/03-instancias-ec2.png)
-
-**Captura: Elastic IP**
-
-![Elastic IP](capturas/04-elastic-ip.png)
-
-### 10.2 DNS resolviendo
-
-<!-- Insertar captura de nslookup o resolución DNS -->
-
-![Resolución DNS](capturas/05-dns.png)
-
-### 10.3 Certificado HTTPS
-
-<!-- Insertar captura del navegador mostrando el candado o información del certificado -->
-
-![Certificado HTTPS](capturas/06-https-certificado.png)
 
 ### 10.4 Formulario Web Server 1 — Inglés
 
 <!-- Insertar captura del formulario en inglés con el badge "Served by Web Server 1 - English" -->
 
-![Web Server 1 - English](capturas/07-web-en-formulario.png)
+![Web Server 1 - English](capturas/07-web-en-formulario.jpg)
 
 ### 10.5 Formulario Web Server 2 — Español
 
 <!-- Insertar captura del formulario en español con el badge "Atendido por Web Server 2 - Espanol" -->
 
-![Web Server 2 - Español](capturas/08-web-es-formulario.png)
+![Web Server 2 - Español](capturas/08-web-es-formulario.jpg)
 
 ### 10.6 Registro exitoso
 
 <!-- Insertar captura del mensaje de confirmación del registro -->
 
-![Registro exitoso](capturas/09-registro-exitoso.png)
+![Registro exitoso](capturas/09-registro-exitoso.jpg)
 
-### 10.7 Balanceo round-robin
 
-<!-- Insertar capturas mostrando la alternancia entre servidores al hacer múltiples solicitudes -->
-
-![Round Robin](capturas/10-round-robin.png)
-
-### 10.8 Base de datos — Registros
-
-<!-- Insertar captura de la consulta SQL mostrando los registros -->
-
-![Registros en BD](capturas/11-base-datos.png)
 
 ### 10.9 Dashboard de estadísticas
 
 <!-- Insertar captura del panel de estadísticas con gráficas -->
 
-![Dashboard de estadísticas](capturas/12-stats-dashboard.png)
+![Dashboard de estadísticas](capturas/12-stats-dashboard.jpg)
 
 ### 10.10 Correo enviado
 
 <!-- Insertar captura del correo recibido en ialondonoo@eafit.edu.co -->
 
-![Correo enviado](capturas/13-correo-enviado.png)
+![Correo enviado](capturas/13-correo-enviado.jpg)
 
 ### 10.11 Contenedores corriendo
 
 <!-- Insertar captura de docker compose ps mostrando todos los contenedores -->
 
-![Docker Compose PS](capturas/14-docker-compose-ps.png)
+![Docker Compose PS](capturas/14-docker-compose-ps.jpg)
 
 ---
 
