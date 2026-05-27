@@ -68,7 +68,6 @@ La pagina debe alternar entre:
 ## Documentacion
 
 - [Informe final completo](docs/informe-final.md) — Contiene toda la documentacion del proyecto: arquitectura, direccionamiento, configuracion AWS, Docker, NGINX, DNS, HTTPS, aplicaciones web, estadisticas, pruebas y capturas.
-- PDF: exportar `docs/informe-final.md` a PDF y renombrar con los apellidos reales antes de entregar.
 
 ## Nota de despliegue AWS
 
