@@ -46,4 +46,4 @@ Debido a la extensión de la documentación, el informe se ha dividido en los si
 
 ---
 
-> **Nota para entrega:** Si se requiere unificar este documento en un solo PDF, se recomienda compilar los 4 archivos en el orden indicado y exportarlos como un único archivo `.pdf`.
+> **Nota para mejor visualizacion:** Si se requiere unificar este documento en un solo PDF, se puede compilar los 4 archivos en el orden indicado y exportarlos como un único archivo `.pdf`.
