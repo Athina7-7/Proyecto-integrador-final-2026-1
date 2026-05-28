@@ -68,7 +68,7 @@ La pagina debe alternar entre:
 
 ## Documentacion
 
-- [Informe final completo](docs/informe-final.md) — Contiene toda la documentacion del proyecto: arquitectura, direccionamiento, configuracion AWS, Docker, NGINX, DNS, HTTPS, aplicaciones web, estadisticas, pruebas y capturas.
+- [Informe final completo](docs/README.md) — Contiene toda la documentacion del proyecto: arquitectura, direccionamiento, configuracion AWS, Docker, NGINX, DNS, HTTPS, aplicaciones web, estadisticas, pruebas y capturas.
 
 ## Nota de despliegue AWS
 
