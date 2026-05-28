@@ -143,6 +143,80 @@ openssl req -x509 -nodes -days 30 -newkey rsa:2048 \
 
 > **Nota:** El certificado autofirmado genera advertencia en el navegador porque la autoridad emisora no es de confianza. No se recomienda para la entrega final si el proyecto exige certificado público válido.
 
+#### 6.3.3 Detalles del certificado utilizado
+
+El proyecto implementa un certificado autofirmado con los siguientes detalles:
+
+| Propiedad | Valor |
+|-----------|-------|
+| **Dominio** | localhost |
+| **Tipo** | Certificado autofirmado (para laboratorio) |
+| **Validez** | 21 de mayo 2026 - 20 de junio 2026 |
+| **Algoritmo** | RSA 2048-bit |
+| **Uso** | SSL/TLS para HTTPS |
+| **Ubicación** | `nginx/certs/fullchain.pem` (público) y `nginx/certs/privkey.pem` (privado) |
+
+#### 6.3.4 Configuración en NGINX
+
+El certificado se configura en `nginx/nginx.conf` (líneas 48-49):
+
+```nginx
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name _;
+
+    ssl_certificate /etc/nginx/certs/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+}
+```
+
+**Explicación:**
+- `listen 443 ssl`: Escucha conexiones HTTPS en puerto 443
+- `http2 on`: Activa protocolo HTTP/2 para mejor rendimiento
+- `ssl_certificate`: Certificado público (puede compartirse)
+- `ssl_certificate_key`: Llave privada (CONFIDENCIAL, nunca compartir)
+- `ssl_protocols TLSv1.2 TLSv1.3`: Solo protocolos HTTPS modernos
+
+#### 6.3.5 Montaje en Docker
+
+En `docker-compose.yml` (líneas 10-11), se monta el certificado:
+
+```yaml
+volumes:
+  - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  - ./nginx/certs:/etc/nginx/certs:ro
+```
+
+El sufijo `:ro` (read-only) significa que el contenedor puede leer pero no modificar estos archivos.
+
+#### 6.3.6 Para producción en AWS con Let's Encrypt
+
+En despliegue real en AWS, se debe usar **Let's Encrypt** (certificado público válido y gratuito):
+
+```bash
+# Instalar Certbot
+sudo snap install --classic certbot
+
+# Generar certificado válido
+sudo certbot certonly --standalone -d midominio.com -d www.midominio.com
+
+# Copiar certificados
+sudo cp /etc/letsencrypt/live/midominio.com/fullchain.pem ./nginx/certs/
+sudo cp /etc/letsencrypt/live/midominio.com/privkey.pem ./nginx/certs/
+
+# Recargar NGINX
+docker compose exec nginx-lb nginx -s reload
+```
+
+La renovación automática se hace con:
+
+```bash
+sudo certbot renew
+```
+
 ### 6.4 Configuración Docker y Docker Compose
 
 #### 6.4.1 Archivo `docker-compose.yml`
