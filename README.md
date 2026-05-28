@@ -1,4 +1,5 @@
 # Proyecto Integrador Final - Telematica
+<img width="1600" height="988" alt="image" src="https://github.com/user-attachments/assets/595511ab-0d28-4583-91de-6de1c9258ddc" />
 
 Aplicacion web segura desplegable en AWS con Docker, NGINX, HTTPS, balanceo round robin, dos servidores web, PostgreSQL, estadisticas y envio de correo.
 
